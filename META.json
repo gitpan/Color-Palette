@@ -1,0 +1,18 @@
+{
+   "resources" : {
+      "repository" : "http://github.com/rjbs/color-palette/tree"
+   },
+   "generated_by" : "Dist::Zilla::Plugin::MetaJSON version 1.091370",
+   "version" : "0.091392",
+   "name" : "Color-Palette",
+   "requires" : {
+      "MooseX::Types" : "0",
+      "List::MoreUtils" : "0",
+      "Moose" : "0"
+   },
+   "abstract" : "a set of named colors",
+   "author" : [
+      "Ricardo SIGNES <rjbs@cpan.org>"
+   ],
+   "license" : "perl"
+}
