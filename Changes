@@ -1,0 +1,7 @@
+Revision history for Color-Palette
+
+0.091400  2009-05-20 12:42:32 UTC
+          replace Color::Palette::Color with Graphics::Color
+
+
+0.091392  2009-05-19

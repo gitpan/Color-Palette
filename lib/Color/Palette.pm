@@ -1,5 +1,5 @@
 package Color::Palette;
-our $VERSION = '0.091392';
+our $VERSION = '0.091400';
 
 use Moose;
 # ABSTRACT: a set of named colors
@@ -78,10 +78,10 @@ sub color_names {
 }
 
 
-sub hex_triples {
+sub as_css_hash {
   my ($self) = @_;
   my $output = {};
-  $output->{ $_ } = $self->color($_)->hex_triple for $self->color_names;
+  $output->{$_} = $self->color($_)->as_css_hex for $self->color_names;
   return $output;
 }
 
@@ -113,7 +113,7 @@ Color::Palette - a set of named colors
 
 =head1 VERSION
 
-version 0.091392
+version 0.091400
 
 =head1 DESCRIPTION
 
@@ -129,7 +129,7 @@ For example, a color palette might contain the following data:
     sidebarText       => 'highlights'
     sidebarBoder      => 'sidebarText'
 
-Colors can be defined by a color specifier (a L<Color::Palette::Color> object,
+Colors can be defined by a color specifier (a L<Graphics::Color> object,
 a CSS-style hex triple, or an arrayref of RGB values) or by a name of another
 color that appears in the palette.  If colors are defined in terms of another
 color that doesn't exist, an exception will be raised.
@@ -172,13 +172,14 @@ This method will return the Color object to be used for the given name.
 
 This method returns a list of all color names the object knows about.
 
-=head2 hex_triples
+=head2 as_css_hash
 
-    my $triple_for = $palette->hex_triples;
+    my $triple_for = $palette->as_css_hash
 
 This method returns a hashref.  Every color name known to the palette has an
-entry, and the value is the hex triple for the resolved color.  For example,
-the output for the color scheme in the L</DESCRIPTION> section would be:
+entry, and the value is the CSS-safe hex string for the resolved color.  For
+example, the output for the color scheme in the L</DESCRIPTION> section would
+be:
 
     {
       highlights => '#f0f000',

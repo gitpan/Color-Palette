@@ -3,10 +3,11 @@
       "repository" : "http://github.com/rjbs/color-palette/tree"
    },
    "generated_by" : "Dist::Zilla::Plugin::MetaJSON version 1.091370",
-   "version" : "0.091392",
+   "version" : "0.091400",
    "name" : "Color-Palette",
    "requires" : {
       "MooseX::Types" : "0",
+      "Graphics::Color" : "0.21",
       "List::MoreUtils" : "0",
       "Moose" : "0"
    },

@@ -1,3 +1,4 @@
+Changes
 LICENSE
 MANIFEST
 META.json
@@ -6,7 +7,6 @@ README
 dist.ini
 eg/demo.pl
 lib/Color/Palette.pm
-lib/Color/Palette/Color.pm
 lib/Color/Palette/Schema.pm
 lib/Color/Palette/Types.pm
 t/basic.t
