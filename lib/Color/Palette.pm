@@ -1,6 +1,7 @@
 package Color::Palette;
-our $VERSION = '0.091400';
-
+{
+  $Color::Palette::VERSION = '0.100000';
+}
 use Moose;
 # ABSTRACT: a set of named colors
 
@@ -9,10 +10,11 @@ use Color::Palette::Types qw(RecursiveColorDict ColorDict Color);
 
 
 has colors => (
-  is   => 'ro',
+  is   => 'bare',
   isa  => RecursiveColorDict,
   coerce   => 1,
   required => 1,
+  reader   => '_colors',
 );
 
 
@@ -20,15 +22,21 @@ has _resolved_colors => (
   is   => 'ro',
   isa  => ColorDict,
   lazy => 1,
+  traits   => [ 'Hash' ],
   coerce   => 1,
   required => 1,
   builder  => '_build_resolved_colors',
+  handles  => {
+    has_color   => 'exists',
+    _get_color  => 'get',
+    color_names => 'keys',
+  },
 );
 
 sub _build_resolved_colors {
   my ($self) = @_;
 
-  my $input = $self->colors;
+  my $input = $self->_colors;
 
   my %output;
 
@@ -65,16 +73,9 @@ sub _build_resolved_colors {
 
 sub color {
   my ($self, $name) = @_;
-  confess("no color named $name")
-    unless my $color = $self->_resolved_colors->{ $name };
+  confess("no color named $name") unless my $color = $self->_get_color($name);
 
   return $color;
-}
-
-
-sub color_names {
-  my ($self) = @_;
-  keys %{ $self->colors };
 }
 
 
@@ -104,7 +105,6 @@ sub optimize_for {
 1;
 
 __END__
-
 =pod
 
 =head1 NAME
@@ -113,7 +113,7 @@ Color::Palette - a set of named colors
 
 =head1 VERSION
 
-version 0.091400
+version 0.100000
 
 =head1 DESCRIPTION
 
@@ -123,11 +123,11 @@ validate the color names they required.
 
 For example, a color palette might contain the following data:
 
-    highlights => #f0f000
-    background => #333
-    sidebarBackground => #88d
-    sidebarText       => 'highlights'
-    sidebarBoder      => 'sidebarText'
+  highlights => #f0f000
+  background => #333
+  sidebarBackground => #88d
+  sidebarText       => 'highlights'
+  sidebarBoder      => 'sidebarText'
 
 Colors can be defined by a color specifier (a L<Graphics::Color> object,
 a CSS-style hex triple, or an arrayref of RGB values) or by a name of another
@@ -142,10 +142,6 @@ A palette can be checked against a schema with the schema's C<check> method, or
 may be reduced to the minimal set of colors needed to satisfy the schema with
 the palette's C<optimize_for> method.
 
-=begin :private
-
-=end :private
-
 =head1 ATTRIBUTES
 
 =head2 colors
@@ -154,60 +150,63 @@ This attribute is a hashref.  Keys are color names and values are either Color
 objects or names of other colors.  To get at the color object for a name
 consult the C<L</color>> method.
 
-=head2 _resolved_colors
-
-This attribute is just like C<colors>, but all values are Color objects.
-
 =head1 METHODS
 
 =head2 color
 
-    my $color_obj = $palette->color('extremeHighlight');
+  my $color_obj = $palette->color('extremeHighlight');
 
 This method will return the Color object to be used for the given name.
 
 =head2 color_names
 
-    my @names = $palette->color_names;
+  my @names = $palette->color_names;
 
 This method returns a list of all color names the object knows about.
 
 =head2 as_css_hash
 
-    my $triple_for = $palette->as_css_hash
+  my $triple_for = $palette->as_css_hash
 
 This method returns a hashref.  Every color name known to the palette has an
 entry, and the value is the CSS-safe hex string for the resolved color.  For
 example, the output for the color scheme in the L</DESCRIPTION> section would
 be:
 
-    {
-      highlights => '#f0f000',
-      background => '#333333',
-      sidebarBackground => #8888dd',
-      sidebarText       => #f0f000',
-      sidebarBoder      => #f0f000',
-    }
+  {
+    highlights => '#f0f000',
+    background => '#333333',
+    sidebarBackground => #8888dd',
+    sidebarText       => #f0f000',
+    sidebarBoder      => #f0f000',
+  }
 
 =head2 optimize_for
 
-    my $optimized_palette = $palette->optimize_for($schema);
+  my $optimized_palette = $palette->optimize_for($schema);
 
 This method returns a new palette containing only the colors needed to fulfill
 the requirements of the given schema.  This is useful for reducing a large
 palette to the small set that must be embedded in a document.
 
+=begin :private
+
+=attr _resolved_colors
+
+This attribute is just like C<colors>, but all values are Color objects.
+
+=end :private
+
 =head1 AUTHOR
 
-  Ricardo SIGNES <rjbs@cpan.org>
+Ricardo SIGNES <rjbs@cpan.org>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2009 by Ricardo SIGNES.
+This software is copyright (c) 2011 by Ricardo SIGNES.
 
 This is free software; you can redistribute it and/or modify it under
-the same terms as perl itself.
+the same terms as the Perl 5 programming language system itself.
 
-=cut 
-
+=cut
 
