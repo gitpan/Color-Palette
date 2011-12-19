@@ -1,6 +1,6 @@
 package Color::Palette::Types;
 {
-  $Color::Palette::Types::VERSION = '0.100001';
+  $Color::Palette::Types::VERSION = '0.100002';
 }
 use strict;
 use warnings;
@@ -91,7 +91,7 @@ Color::Palette::Types - type constraints for use with Color::Palette
 
 =head1 VERSION
 
-version 0.100001
+version 0.100002
 
 =head1 BEAR WITH ME
 

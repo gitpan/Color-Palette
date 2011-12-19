@@ -1,6 +1,6 @@
 package Color::Palette::Schema;
 {
-  $Color::Palette::Schema::VERSION = '0.100001';
+  $Color::Palette::Schema::VERSION = '0.100002';
 }
 use Moose;
 # ABSTRACT: requirements for a palette
@@ -36,7 +36,7 @@ Color::Palette::Schema - requirements for a palette
 
 =head1 VERSION
 
-version 0.100001
+version 0.100002
 
 =head1 DESCRIPTION
 

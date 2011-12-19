@@ -1,6 +1,6 @@
 package Color::Palette;
 {
-  $Color::Palette::VERSION = '0.100001';
+  $Color::Palette::VERSION = '0.100002';
 }
 use Moose;
 # ABSTRACT: a set of named colors
@@ -97,6 +97,12 @@ sub as_strict_css_hash {
 
 
 sub optimize_for {
+  my $self = shift;
+  # warn deprecated
+  $self->optimized_for(@_);
+}
+
+sub optimized_for {
   my ($self, $checker) = @_;
 
   my $required_colors = $checker->required_colors;
@@ -135,7 +141,7 @@ Color::Palette - a set of named colors
 
 =head1 VERSION
 
-version 0.100001
+version 0.100002
 
 =head1 DESCRIPTION
 
@@ -162,7 +168,7 @@ L<Color::Palette::Schema> objects.
 
 A palette can be checked against a schema with the schema's C<check> method, or
 may be reduced to the minimal set of colors needed to satisfy the schema with
-the palette's C<optimize_for> method.
+the palette's C<optimized_for> method.
 
 =head1 ATTRIBUTES
 
@@ -211,13 +217,15 @@ This method behaves just like C<L</as_css_hash>>, but the returned hashref is
 tied so that trying to read values for keys that do not exist is fatal.  The
 hash may also become read-only in the future.
 
-=head2 optimize_for
+=head2 optimized_for
 
-  my $optimized_palette = $palette->optimize_for($schema);
+  my $optimized_palette = $palette->optimized_for($schema);
 
 This method returns a new palette containing only the colors needed to fulfill
 the requirements of the given schema.  This is useful for reducing a large
 palette to the small set that must be embedded in a document.
+
+C<optimize_for> redispatches to this method for historical reasons.
 
 =begin :private
 
