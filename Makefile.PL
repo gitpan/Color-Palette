@@ -28,10 +28,11 @@ my %WriteMakefileArgs = (
     "Moose" => 0,
     "MooseX::Types" => 0,
     "MooseX::Types::Moose" => 0,
+    "Tie::Hash" => 0,
     "strict" => 0,
     "warnings" => 0
   },
-  "VERSION" => "0.100000",
+  "VERSION" => "0.100001",
   "test" => {
     "TESTS" => "t/*.t"
   }

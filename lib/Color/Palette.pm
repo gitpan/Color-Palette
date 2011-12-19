@@ -1,6 +1,6 @@
 package Color::Palette;
 {
-  $Color::Palette::VERSION = '0.100000';
+  $Color::Palette::VERSION = '0.100001';
 }
 use Moose;
 # ABSTRACT: a set of named colors
@@ -87,6 +87,15 @@ sub as_css_hash {
 }
 
 
+sub as_strict_css_hash {
+  my ($self) = @_;
+  my $hashref = $self->as_css_hash;
+  tie my %hash, 'Color::Palette::TiedStrictHash';
+  %hash = %$hashref;
+  return \%hash;
+}
+
+
 sub optimize_for {
   my ($self, $checker) = @_;
 
@@ -102,6 +111,19 @@ sub optimize_for {
   });
 }
 
+{
+  package
+    Color::Palette::TiedStrictHash;
+  use Tie::Hash;
+  BEGIN { our @ISA = qw(Tie::StdHash) }
+  sub FETCH {
+    my ($self, $key) = @_;
+    die "no entry in palette hash for key $key"
+      unless $self->EXISTS($key);
+    return $self->SUPER::FETCH($key);
+  }
+}
+
 1;
 
 __END__
@@ -113,7 +135,7 @@ Color::Palette - a set of named colors
 
 =head1 VERSION
 
-version 0.100000
+version 0.100001
 
 =head1 DESCRIPTION
 
@@ -180,6 +202,14 @@ be:
     sidebarText       => #f0f000',
     sidebarBoder      => #f0f000',
   }
+
+=head2 as_strict_css_hash
+
+  my $hashref = $palette->as_strict_css_hash;
+
+This method behaves just like C<L</as_css_hash>>, but the returned hashref is
+tied so that trying to read values for keys that do not exist is fatal.  The
+hash may also become read-only in the future.
 
 =head2 optimize_for
 
