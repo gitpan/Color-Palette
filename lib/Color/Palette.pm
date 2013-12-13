@@ -1,6 +1,6 @@
 package Color::Palette;
 {
-  $Color::Palette::VERSION = '0.100002';
+  $Color::Palette::VERSION = '0.100003';
 }
 use Moose;
 # ABSTRACT: a set of named colors
@@ -133,7 +133,10 @@ sub optimized_for {
 1;
 
 __END__
+
 =pod
+
+=encoding UTF-8
 
 =head1 NAME
 
@@ -141,7 +144,7 @@ Color::Palette - a set of named colors
 
 =head1 VERSION
 
-version 0.100002
+version 0.100003
 
 =head1 DESCRIPTION
 
@@ -241,10 +244,9 @@ Ricardo SIGNES <rjbs@cpan.org>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2011 by Ricardo SIGNES.
+This software is copyright (c) 2013 by Ricardo SIGNES.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
 
 =cut
-
